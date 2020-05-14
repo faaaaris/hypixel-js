@@ -2,7 +2,7 @@ const fetch = require("node-fetch");
 const url = "https://api.hypixel.net";
 const util = require("./util");
 
-class HypixelApi {
+class HypixelClient {
     constructor(key) {
         if(key) {
             this.key = key;
