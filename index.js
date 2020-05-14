@@ -47,7 +47,7 @@ class HypixelApi {
         .catch(err => {
             throw new Error(err);
         });
-    }
+    };
 }
 
 module.exports = HypixelApi;
