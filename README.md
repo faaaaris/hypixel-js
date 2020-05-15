@@ -49,3 +49,38 @@
         <img src="https://img.shields.io/github/issues-pr-closed/fqriss/hypixel-api-node?color=yellow&logo=github&style=for-the-badge" alt="pulls-closed">
 </a>
 </div>
+
+## Installation
+
+Using NPM:
+
+```bash
+npm i -s hypixel-api-node
+```
+
+## Dependencies
+
+* [node-fetch](https://npmjs.com/package/node-fetch)
+* [object-path](https://npmjs.com/package/object-path)
+
+## Setup
+
+JavaScript:
+
+```js
+const { HypixelClient } = require("hypixel-api-node");
+
+const hypixel = new HypixelClient("your-api-key");
+```
+
+TypeScript:
+
+```ts
+import { HypixelClient } from 'hypixel-api-node';
+
+const hypixel = new HypixelClient("your-api-key");
+```
+
+## How to obtain a Hypixel API key
+
+You can obtain an API key by joining `mc.hypixel.net` with a valid Minecraft account and running the /api command. You will then be assigned a unique key that is to remain **private**.
