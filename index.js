@@ -1,6 +1,7 @@
 const fetch = require("node-fetch");
 const url = "https://api.hypixel.net";
 const util = require("./util");
+const getUuid = require("./utils/getUuid");
 
 class HypixelClient {
     constructor(key) {
@@ -14,127 +15,85 @@ class HypixelClient {
     /*========================================================
                               Methods
     ==========================================================*/
-
-    //Get player stats by uuid
-    async getPlayerByUuid(uuid) {
-        await fetch(url+"/player?key="+this.key+"&uuid="+uuid)
-        .then(res => {
-            const parsed = await res.json();
-            if(parsed.success) {
-                return parsed;
-            }else {
-                throw new Error(parsed.cause || "Player not found.")
-            }
-        })
-        .catch(err => {
-            throw new Error(err);
-        });
-    };
-
-    //Get player stats by name
-    async getPlayerByName(name) {
-        const uuid = util.nameToUuid(name);
+    /**
+     * @async
+     * 
+     * @param {String} uuid Minecraft player id
+     * 
+     * @returns {Object}
+     */
+    async getPlayer(uuid) {
+        if(uuid.length <= 16) {
+            uuid = await getUuid(uuid);
+        };
 
         await fetch(url+"/player?key="+this.key+"&uuid="+uuid)
         .then(res => {
+            if(res.status !== 200) {
+                throw new Error("Hypixel API returned an error, try again.")
+            };
             const parsed = await res.json();
-            if(parsed.success) {
+
+            if(parsed.success = true) {
                 return parsed;
             }else {
-                throw new Error(parsed.cause || "Player not found.")
-            }
-        })
-        .catch(err => {
-            throw new Error(err);
+                throw new Error(parsed.cause)
+            };
         });
     };
 
     /**
      * @async
      * 
-     * @description Hypixel player stats
+     * @param {String} query Search query
      * 
-     * @param {String} uuid - uuid of the player
+     * @param {String} searchParameter name | player | id
      * 
-     * @returns {Player} Player stats or error
+     * @returns {Object}
      */
-
-    async getPlayer(uuid) {
-        if(await util.isUuid(uuid)) {
-            await fetch(url+"/player?key="+this.key+"&uuid="+uuid)
-            .then(res => {
-                const parsed = await res.json();
-                if(parsed.success) {
-                    return parsed;
-                }else {
-                    throw new Error(parsed.cause || "Player not found.")
-                };
-            })
-            .catch(err => {
-                throw new Eror(err);
-            });
-        }else {
-            const toUuid = util.nameToUuid(uuid);
-
-            await fetch(url+"/player?key="+this.key+"&uuid="+toUuid)
-            .then(res => {
-                const parsed = await res.json();
-                if(parsed.success) {
-                    return parsed;
-                }else {
-                    throw new Error(parsed.cause || "Player not found.");
-                };
-            })
-            .catch(err => {
-                throw new Error(err);
-            });
-        };
-    };
-
-    async getGuild(query, searchParam) {
-        let res;
+    async getGuild(query, searchParameter) {
         let URL;
 
-        switch(searchParam) {
+        switch(searchParameter) {
             case 'name': {
-                URL = url+"/guild?key="+this.key+"&name="+query;
-                res = await fetch(url).then(data => data.json());
+                URL= url+"/guild?key="+this.key+"&name"+query;
             }
             break;
             case 'player': {
-                if(util.isUuid(query) == false) {
-                    let uuid = util.nameToUuid(query)
-                    .catch(err => {
-                        throw new Error("Player not found.");
-                    })
-                }
-
-                URL = url+"/guild?key="+this.key+"&player="+query;
-                res = await fetch(URL)
-                .then(data => data.json())
-            }
+                if(query.length <= 16) {
+                    query = await getUuid(query);
+                    URL= url+"/guild?key="+this.key+"&player="+query;
+                };
+            };
             break;
             case 'id': {
-                if(await util.isGuildId(query) == false) throw new Error("Invalid Guild ID.");
-
-                URL = url+"/guild?key="+this.key+"&id="+query;
-                res = await fetch(URL)
-                .then(data => data.json());
-            }
+                if(query.length !== 24) {
+                    throw new Error("Invalid guild ID.");
+                }
+                URL= url+"/guild?key="+this.key+"&id="+query;
+            };
             break;
             default: {
-                throw new Error("Guild search parameter is not defined.");
-            }
+                throw new ReferenceError("Guild search parameter is not defined.");
+            };
         };
 
-        if(res.guild == null) throw new Error("Guild not found.");
+        await fetch(url)
+        .then(res => {
+            if(res.status !== 200) {
+                throw new Error("Cannot get api.hypixel.net, try again later.");
+            };
 
-        if(res.success) {
-            return res;
-        }else {
-            throw new Error(res.cause || "Unknown error.")
-        }
-    }
-}
+            const parsed = await res.json();
+            if(parsed.guild == null) throw new Error("Guild not found.");
+
+            if(res.success = true) {
+                return parsed;
+            }else {
+                throw new Error(parsed.cause);
+            };
+        });
+    };
+};
 
 module.exports = HypixelClient;
