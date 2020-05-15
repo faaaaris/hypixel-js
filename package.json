@@ -1,6 +1,6 @@
 {
   "name": "hypixel-api-node",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "A node API wrapper for Hypixel.",
   "main": "index.js",
   "scripts": {
