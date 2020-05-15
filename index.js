@@ -1,6 +1,5 @@
 const fetch = require("node-fetch");
 const url = "https://api.hypixel.net";
-const util = require("./util");
 const getUuid = require("./utils/getUuid");
 
 class HypixelClient {
