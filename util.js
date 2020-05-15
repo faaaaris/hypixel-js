@@ -11,7 +11,7 @@ class Util {
      * @param {name} String - username of player
      */
 
-    nameToUuid(name) {
+    async nameToUuid(name) {
         await fetch(mojang+"/users/profiles/minecraft/"+name)
         .then(res => {
             const parsed = await res.json();
@@ -31,7 +31,7 @@ class Util {
      * @param {String} uuid - Minecraft player uuid
      */
 
-    isUuid(uuid) {
+    async isUuid(uuid) {
         let f = new RegExp('[0-9a-fA-F]{8}[0-9a-fA-F]{4}[0-9a-fA-F]{4}[0-9a-fA-F]{4}[0-9a-fA-F]{12}');
         let s = new RegExp('[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}');
 
@@ -49,7 +49,7 @@ class Util {
      * @param {String} id - id of the guild
      */
 
-    isGuildId(id) {
+    async isGuildId(id) {
         return id.length == 24 ? true : false;
     };
 }

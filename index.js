@@ -16,7 +16,7 @@ class HypixelClient {
     ==========================================================*/
 
     //Get player stats by uuid
-    getPlayerByUuid(uuid) {
+    async getPlayerByUuid(uuid) {
         await fetch(url+"/player?key="+this.key+"&uuid="+uuid)
         .then(res => {
             const parsed = await res.json();
@@ -32,7 +32,7 @@ class HypixelClient {
     };
 
     //Get player stats by name
-    getPlayerByName(name) {
+    async getPlayerByName(name) {
         const uuid = util.nameToUuid(name);
 
         await fetch(url+"/player?key="+this.key+"&uuid="+uuid)
