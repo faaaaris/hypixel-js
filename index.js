@@ -28,7 +28,7 @@ class HypixelClient {
         };
 
         await fetch(url+"/player?key="+this.key+"&uuid="+uuid)
-        .then(res => {
+        .then(async res => {
             if(res.status !== 200) {
                 throw new Error("Hypixel API returned an error, try again.")
             };
@@ -79,7 +79,7 @@ class HypixelClient {
         };
 
         await fetch(url)
-        .then(res => {
+        .then(async res => {
             if(res.status !== 200) {
                 throw new Error("Cannot get api.hypixel.net, try again later.");
             };
