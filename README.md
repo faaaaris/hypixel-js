@@ -68,7 +68,7 @@ npm i -s hypixel-api-node
 JavaScript:
 
 ```js
-const { HypixelClient } = require("hypixel-api-node");
+const HypixelClient = require("hypixel-api-node");
 
 const hypixel = new HypixelClient("your-api-key");
 ```
@@ -76,7 +76,7 @@ const hypixel = new HypixelClient("your-api-key");
 TypeScript:
 
 ```ts
-import { HypixelClient } from 'hypixel-api-node';
+import HypixelClient from 'hypixel-api-node';
 
 const hypixel = new HypixelClient("your-api-key");
 ```
