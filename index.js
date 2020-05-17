@@ -26,19 +26,14 @@ class HypixelClient {
             uuid = await getUuid(uuid);
         };
 
-        await fetch(url+"/player?key="+this.key+"&uuid="+uuid)
-        .then(async res => {
-            if(res.status !== 200) {
-                throw new Error("Hypixel API returned an error, try again.")
-            };
-            const parsed = await res.json();
-
-            if(parsed.success = true) {
-                return parsed;
-            }else {
-                throw new Error(parsed.cause)
-            };
-        });
+        const res = await fetch(url+"/player?key="+this.key+"&uuid="+uuid)
+        if(res.status !== 200) throw new Error("Cannot GET api.hypixel.net, try again later.");
+        const parsed = await res.json();
+        if(parsed.success == true){
+            return parsed;
+        }else {
+            throw new Error(parsed.cause);
+        };
     };
 
     /**
@@ -77,21 +72,17 @@ class HypixelClient {
             };
         };
 
-        await fetch(url)
-        .then(async res => {
-            if(res.status !== 200) {
-                throw new Error("Cannot get api.hypixel.net, try again later.");
-            };
+        const res = await fetch(url);
+        if(res.status !== 200) throw new Error("Cannot GET api.hypixel.net, try again later.");
+        const parsed = await res.json();
 
-            const parsed = await res.json();
-            if(parsed.guild == null) throw new Error("Guild not found.");
+        if(parsed.guild == null) throw new Error("Guild not found.");
 
-            if(res.success = true) {
-                return parsed;
-            }else {
-                throw new Error(parsed.cause);
-            };
-        });
+        if(res.success == true) {
+            return parsed;
+        }else {
+            throw new Error(parsed.cause);
+        };
     };
 };
 
