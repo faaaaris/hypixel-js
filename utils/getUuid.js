@@ -1,6 +1,13 @@
 const fetch = require("node-fetch");
 const url = "https://api.mojang.com";
 
+/**
+ * @async
+ * 
+ * @description Converts minecraft player name to a UUID
+ * 
+ * @returns {String}
+ */
 module.exports = async (query) => {
     await fetch(url+"/users/profiles/minecraft/"+query)
     .then(async res => {
