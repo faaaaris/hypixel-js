@@ -61,9 +61,10 @@ npm i -s hypixel-api-node
 ## Dependencies
 
 * [node-fetch](https://npmjs.com/package/node-fetch)
-* [object-path](https://npmjs.com/package/object-path)
 
-## Setup
+## Usage
+
+### Add to Project
 
 JavaScript:
 
@@ -79,6 +80,37 @@ TypeScript:
 import HypixelClient from 'hypixel-api-node';
 
 const hypixel = new HypixelClient("your-api-key");
+```
+
+### Functions
+|               	|           Args   	        |
+|----------------------	|:----------------------------:	|
+| **getPlayer**       	|    uuid | username           	|
+| **getGuild**      	|    searchParameter, query     |
+| **getWatchdogStats**  |    withCommas          	|
+| **getBoosters** 	|              	                |
+| **getOnlinePlayers** 	|    withCommas          	|
+| **getFriends**   	|    uuid | username   	        |
+|**getSkyblockProfiles**|    uuid | username        	|
+| **getSkyblockProfile**|    id                         |
+| **getSkyblockNews**   |             	                |
+|**getSkyblockAuctions**|    page   	                |
+| **getSkyblockAuction**|    searchParameter, query 	|
+| **getBazaar**         |                               |
+| **getBazaarProduct**  |    product                    |
+| **getStatus**         |    uuid | username            |
+
+### Examples
+
+```js
+async () => {
+        await HypixelClient.getPlayer("Hypixel").then(player => {
+        console.log(player);
+});
+
+        let guild = await HypixelClient.getGuild("name", "The Sloths");
+        console.log(guild);
+}
 ```
 
 ## How to obtain a Hypixel API key
